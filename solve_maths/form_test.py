@@ -20,7 +20,7 @@ def reformat_equation(math_equation, x_value):
 # Load the website
 driver.get("https://suninjuly.github.io/alert_accept.html")
 
-# Find acce[y] button
+# Find accept button
 accept_button = driver.find_element_by_css_selector("button[type='submit']")
 
 # Click accept button
