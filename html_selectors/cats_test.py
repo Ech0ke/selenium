@@ -1,7 +1,9 @@
 from selenium import webdriver
+
 PATH = "C:\Drivers\chromedriver\chromedriver.exe"
 driver = webdriver.Chrome(PATH)
 
+# Load the website
 driver.get("http://suninjuly.github.io/cats.html")
 
 # Get title of the page by CSS selector
@@ -20,10 +22,13 @@ politic_cat = driver.find_element_by_name("Vova")
 # Get all cat meme descriptions
 all_cat_descriptions = driver.find_elements_by_class_name("card-text")
 
+# Get minutes property next to cat image using xpath
 fourth_cat_minutes_by_xpath = driver.find_element_by_xpath(
     "/html/body/main/div/div/div/div[3]/div/div/div/small")
 
+# Get page moto using xpath
 moto = driver.find_element_by_xpath("//article[@id='moto']")
+
 # Print the results
 print("Found elements:\n--------------------------------------")
 print(f"Heading of the page - {webpage_title.text}")
