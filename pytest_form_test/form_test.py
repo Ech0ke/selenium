@@ -1,19 +1,29 @@
-import unittest
+import pytest
 from selenium import webdriver
+
 
 PATH = "C:\Drivers\chromedriver\chromedriver.exe"
 
 
-class TestHtmlForm(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Chrome(PATH)
+@pytest.fixture()
+def browser():
+    # Initialize browser instance
+    driver = webdriver.Chrome(PATH)
 
-    def test_registration_form_1(self):
+    # Provide driver to test function for use
+    yield driver
+
+    # After test completes, quit browser session
+    driver.quit()
+
+
+class TestHtmlForm():
+    def test_registration_form_1(self, browser):
         """
         Test that form is submitted successfully
         """
 
-        self.driver.get("http://suninjuly.github.io/registration1.html")
+        browser.get("http://suninjuly.github.io/registration1.html")
 
         # Field values
         person_info = {
@@ -25,19 +35,19 @@ class TestHtmlForm(unittest.TestCase):
         }
 
         # Find input fields
-        first_name_input = self.driver.find_element_by_xpath(
+        first_name_input = browser.find_element_by_xpath(
             "//label[contains(text(),'First name')]/following-sibling::input")
-        last_name_input = self.driver.find_element_by_xpath(
+        last_name_input = browser.find_element_by_xpath(
             "//label[contains(text(),'Last name')]/following-sibling::input")
-        email_input = self.driver.find_element_by_xpath(
+        email_input = browser.find_element_by_xpath(
             "//label[contains(text(),'Email')]/following-sibling::input")
-        phone_input = self.driver.find_element_by_xpath(
+        phone_input = browser.find_element_by_xpath(
             "//label[contains(text(),'Phone')]/following-sibling::input")
-        address_input = self.driver.find_element_by_xpath(
+        address_input = browser.find_element_by_xpath(
             "//label[contains(text(),'Address')]/following-sibling::input")
 
         # Find submit button
-        submit_button = self.driver.find_element_by_css_selector(
+        submit_button = browser.find_element_by_css_selector(
             "button[type='submit']")
 
         # Type person info into input fields
@@ -51,17 +61,17 @@ class TestHtmlForm(unittest.TestCase):
         submit_button.click()
 
         # Assert that submission was successful
-        success_message = self.driver.find_element_by_css_selector(
+        success_message = browser.find_element_by_css_selector(
             "div.container > h1")
-        self.assertEqual(success_message.text,
-                         "Congratulations! You have successfully registered!")
 
-    def test_registration_form_2(self):
+        assert success_message.text == "Congratulations! You have successfully registered!"
+
+    def test_registration_form_2(self, browser):
         """
         Test that form is submitted successfully
         """
 
-        self.driver.get("http://suninjuly.github.io/registration2.html")
+        browser.get("http://suninjuly.github.io/registration2.html")
 
         # Field values
         person_info = {
@@ -69,11 +79,11 @@ class TestHtmlForm(unittest.TestCase):
         }
 
         # Find input fields
-        first_name_input = self.driver.find_element_by_xpath(
+        first_name_input = browser.find_element_by_xpath(
             "//label[contains(text(),'First name')]/following-sibling::input")
 
         # Find submit button
-        submit_button = self.driver.find_element_by_css_selector(
+        submit_button = browser.find_element_by_css_selector(
             "button[type='submit']")
 
         # Type person info into input fields
@@ -83,14 +93,7 @@ class TestHtmlForm(unittest.TestCase):
         submit_button.click()
 
         # Assert that submission was successful
-        success_message = self.driver.find_element_by_css_selector(
+        success_message = browser.find_element_by_css_selector(
             "div.container > h1")
-        self.assertEqual(success_message.text,
-                         "Congratulations! You have successfully registered!")
 
-    def tearDown(self):
-        self.driver.quit()
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert success_message.text == "Congratulations! You have successfully registered!"

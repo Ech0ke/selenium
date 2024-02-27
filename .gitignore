@@ -1,0 +1,3 @@
+# Ignore pytest caching
+.pytest_cache
+__pycache__
