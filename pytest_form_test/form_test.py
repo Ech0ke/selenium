@@ -5,7 +5,7 @@ from selenium import webdriver
 PATH = "C:\Drivers\chromedriver\chromedriver.exe"
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def browser():
     # Initialize browser instance
     driver = webdriver.Chrome(PATH)
